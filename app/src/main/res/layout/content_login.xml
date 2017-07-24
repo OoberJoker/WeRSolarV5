@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@drawable/loginbg">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.swara.wersolarv5.LoginActivity"
+    tools:showIn="@layout/activity_login"
+
+    >
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login to your Account"
+        android:id="@+id/loginFormHeaderTextFieldID"
+        android:textColor="#000000"
+        android:textSize="20dp"
+        android:textAlignment="center"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="Roboto" />
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:id="@+id/imageView2"
+        android:layout_below="@+id/loginFormHeaderTextFieldID"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="38dp"
+        android:background="@drawable/sun2"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/loginFormUserNameFieldID"
+        android:hint="User Name"
+        android:layout_below="@+id/imageView2"
+        android:layout_marginTop="34dp"
+        android:background="#ffffff"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:imeOptions="actionNext"
+        android:singleLine="true"
+        android:textAlignment="center" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/loginFormPasswordFieldID"
+        android:hint="Password"
+        android:background="#ffffff"
+        android:textAlignment="center"
+        android:layout_below="@+id/loginFormUserNameFieldID"
+        android:imeOptions="actionDone"
+        android:singleLine="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:id="@+id/loginFormLoginButtonFieldID"
+        android:background="@drawable/login"
+        android:layout_below="@+id/loginFormPasswordFieldID"
+        android:layout_alignLeft="@+id/imageView2"
+        android:layout_alignStart="@+id/imageView2"
+        android:layout_marginTop="30dp"
+        android:layout_alignRight="@+id/imageView2"
+        android:layout_alignEnd="@+id/imageView2" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dont have an account? Click Sign Up to register"
+        android:id="@+id/loginFormSignUpNoticeFieldID"
+        android:textColor="#000000"
+        android:textSize="15dp"
+        android:textAlignment="center"
+        android:layout_below="@+id/loginFormLoginButtonFieldID"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:id="@+id/loginFormSignUpButtonFieldID"
+        android:background="@drawable/signup"
+        android:layout_below="@+id/loginFormSignUpNoticeFieldID"
+        android:layout_alignLeft="@+id/loginFormLoginButtonFieldID"
+        android:layout_alignStart="@+id/loginFormLoginButtonFieldID"
+        android:layout_alignRight="@+id/loginFormLoginButtonFieldID"
+        android:layout_alignEnd="@+id/loginFormLoginButtonFieldID" />
+</RelativeLayout>
+</ScrollView>
