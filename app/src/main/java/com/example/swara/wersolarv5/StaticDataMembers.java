@@ -1,5 +1,7 @@
 package com.example.swara.wersolarv5;
 
+import java.util.ArrayList;
+
 /**
  * Created by swara on 7/3/2017.
  */
@@ -19,8 +21,10 @@ public class StaticDataMembers {
     public static String [] clientAddressArray = new String[0];//reinitialize array at runtime
     public static String [] clientTimeStampArray = new String[0];//reinitialize array at runtime
     public static String [] clientInputDateArray = new String[0];//reinitialize array at runtime
+    public static ArrayList<CustomerImages> customerImagesArrayList;
+    public static String jsonCustomerImageCount = new String();
 
-    public static String jsonResults =   new String();
+    public static String jsonResults =   new String();//make this an array and get last element where ever it is used.
 
 
 }

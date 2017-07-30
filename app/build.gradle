@@ -26,4 +26,5 @@ dependencies {
     compile 'com.android.support:design:26.0.0-alpha1'
     compile 'com.android.support:support-v4:26.0.0-alpha1'
     compile 'com.mcxiaoke.volley:library:1.0.19'
+    compile group:'com.squareup.picasso', name:'picasso', version:'2.5.2'
 }

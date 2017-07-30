@@ -20,27 +20,38 @@ public class HistoryActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+
+
+
+
+
         final ArrayList<Person> peopleList = new ArrayList<>();
-//test
-
         ListView mListView = (ListView)findViewById(R.id.historyPageListViewID);
-
         for(int i=0;i<StaticDataMembers.clientFirstNamesArray.length;i++){
             Log.d("client_first_names:", StaticDataMembers.clientFirstNamesArray[i]);
             Person data = new Person(StaticDataMembers.clientFirstNamesArray[i],StaticDataMembers.clientLastNamesArray[i],
                                      StaticDataMembers.clientInputDateArray[i]);
             peopleList.add(data);
         }
-
         PersonListAdapter adapter = new PersonListAdapter(this,R.layout.listview_relativelayout_items,peopleList);
         mListView.setAdapter(adapter);
+
+
+
+
+
+
+
 
 
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                //Snackbar.make(view,peopleList.get(position),Snackbar.LENGTH_SHORT).show();
+
+                //from position,get name and address and pass that array to the edit page
+                Log.d("listItem: ",peopleList.get(position).getName());
                 Snackbar.make(view, "works!!",Snackbar.LENGTH_SHORT).show();
             }
         });

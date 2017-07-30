@@ -106,5 +106,6 @@
         android:layout_alignStart="@+id/loginFormLoginButtonFieldID"
         android:layout_alignRight="@+id/loginFormLoginButtonFieldID"
         android:layout_alignEnd="@+id/loginFormLoginButtonFieldID" />
+
 </RelativeLayout>
 </ScrollView>

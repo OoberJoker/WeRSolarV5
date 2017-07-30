@@ -18,12 +18,15 @@ public class PostAsyncHistoryPage extends AsyncTask<String, String, JSONObject> 
     private String dataUrlEndPoint;
     private HashMap<String, String> inputParams;
     private Activity activity;
+    private boolean startIntent = false;
 
 
-    public PostAsyncHistoryPage(String dataUrl,HashMap<String, String> params,Activity activity){
+    public PostAsyncHistoryPage(String dataUrl,HashMap<String, String> params,Activity activity,boolean startIntent){
         dataUrlEndPoint = dataUrl;
         inputParams = params;
         this.activity = activity;
+        this.startIntent = startIntent;
+
     }
 
     @Override
@@ -62,9 +65,10 @@ public class PostAsyncHistoryPage extends AsyncTask<String, String, JSONObject> 
                 StaticDataMembers.clientInputDateArray[i] = jObj.getString("DATECREATED");
                 StaticDataMembers.clientTimeStampArray[i] = jObj.getString("TIMESTAMP");
             }
-
-            Intent intent = new Intent(this.activity, HistoryActivity.class);
-            this.activity.startActivity(intent);
+            if(this.startIntent) {
+                Intent intent = new Intent(this.activity, HistoryActivity.class);
+                this.activity.startActivity(intent);
+            }
 
         }
         catch (Exception e){

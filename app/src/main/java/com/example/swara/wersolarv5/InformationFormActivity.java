@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Spinner;
 
 import com.android.volley.AuthFailureError;
@@ -25,9 +26,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,11 +45,77 @@ public class InformationFormActivity extends AppCompatActivity {
     private Bitmap bitmap;
     private File file;
     private Uri file_uri;
+    int[] locationImage = {R.drawable.sun};
+    int[] cancelImage = {R.drawable.cancel};
+    //ArrayList<CustomerImages> customerImagesArrayList;
+    ListView lv;
+//get images in a bite array. store all bite arrays inside another array.
+    //find how you can set imageview image using data in the bite arrays.
+
+    class GetCustomerImagesCount extends AsyncTask<String,String,JSONObject>{
+        JSONParser jsonParser = new JSONParser();
+        private String dataUrlEndPoint;
+        private HashMap<String, String> inputParams;
+
+        public GetCustomerImagesCount(String dataUrl,HashMap<String, String> params){
+            dataUrlEndPoint = dataUrl;
+            inputParams = params;
+        }
+        @Override
+        protected JSONObject doInBackground(String... strings) {
+            try {
+                jsonParser.makeHttpRequest(dataUrlEndPoint, "POST", inputParams);
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        protected void onPostExecute(JSONObject json){
+            try {
+                JSONObject jsonNew = (JSONObject) new JSONTokener(StaticDataMembers.jsonResults).nextValue();
+                JSONObject imageCountObject = jsonNew.getJSONObject("pictureCount");
+                StaticDataMembers.jsonCustomerImageCount = (String) imageCountObject.get("result");
+
+//                Log.d("imageCount:->>>>>>>>>",  StaticDataMembers.jsonCustomerImageCount);
+            }
+            catch (JSONException e){
+
+            }
+
+            for(int i=1;i<Integer.parseInt(StaticDataMembers.jsonCustomerImageCount);i++) {
+                StaticDataMembers.customerImagesArrayList.add(new CustomerImages("http://192.168.2.198/wersolar/images/" + Integer.toString(i) + ".jpg"));
+            }
+            lv = (ListView)findViewById(R.id.informationFormCustomerImagesListViewID);
+            CustomListViewImageSetterAdapter customAdapter = new CustomListViewImageSetterAdapter(getApplicationContext(),R.layout.listview_installerform_items,StaticDataMembers.customerImagesArrayList);
+            lv.setAdapter(customAdapter);
+
+
+
+        }
+
+
+    }
+
+    public void createListView(){
+        StaticDataMembers.customerImagesArrayList = new ArrayList<>();
+        HashMap<String, String> params = new HashMap<>();
+        params.put("phone",StaticDataMembers.currentUserPhone);
+        params.put("get_picture_count", "Y");
+        try {
+            new  GetCustomerImagesCount(StaticDataMembers.serverInsertPictureUrl,params).execute();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_information_form);
+
 
 
         Spinner typeofCustomer = (Spinner)findViewById(R.id.installerFormTypeOfUserSpinnerID);
@@ -72,6 +144,9 @@ public class InformationFormActivity extends AppCompatActivity {
         String[] typeofRoof = new String[]{"Type of roof","RCC","Slab","Metal/GI sheet","Industrial shed"};
         ArrayAdapter<String>    adapter5 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, typeofRoof);
         typeOfRoof.setAdapter(adapter5);
+
+
+        createListView();//creating list view...
 
 
 
@@ -146,25 +221,23 @@ public class InformationFormActivity extends AppCompatActivity {
             }
 
         });
-
+//show images in a list. have a delete option. on click, show image and give an option to delete it or go back.
         ImageView historyIcon = (ImageView)findViewById(R.id.historyIcon);
         historyIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final HashMap<String, String> params = new HashMap<>();
-                params.put("phone", StaticDataMembers.currentUserPhone);
+                params.put("phone: ", StaticDataMembers.currentUserPhone);
 
                 try {
                     Log.i("phone check: ", StaticDataMembers.currentUserPhone);
 
-                    new PostAsyncHistoryPage(StaticDataMembers.serverTestUrl, params,InformationFormActivity.this).execute();
+                    new PostAsyncHistoryPage(StaticDataMembers.serverTestUrl, params,InformationFormActivity.this,true).execute();
 
 
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
-
 
             }
         });
@@ -187,7 +260,7 @@ public class InformationFormActivity extends AppCompatActivity {
 
 
     private void getFileUri(){
-        image_name = "testing123.jpg";
+        image_name = "picture";//this is kind of irrelevant
         file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)+File.separator+image_name);
 
         file_uri = Uri.fromFile(file);
@@ -237,6 +310,7 @@ public class InformationFormActivity extends AppCompatActivity {
                     HashMap<String,String> map = new HashMap<>();
                     map.put("encoded_string",encoded_string);
                     map.put("image_name",image_name);
+                    map.put("phone",StaticDataMembers.currentUserPhone);
                     return map;
 
                 }
@@ -244,6 +318,10 @@ public class InformationFormActivity extends AppCompatActivity {
             requestQueue.add(request);
         }
     }
+
+
+
+
 
 
 
